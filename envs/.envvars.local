@@ -1,0 +1,34 @@
+export DEBUGGER=false    # Options: [true, false]
+export DEBUG_BRK=false  # Options: [true, false]
+export NODE_ENV=development   # Options: [local, development, staging, production]
+export DOCKER_ENV=local
+
+## Make sure the below never make it into any of the other .envvars files
+## these are for local dev only
+
+export PGHOST="postgres"
+export PGUSER="postgres"
+export PGPASSWORD=$POSTGRES_PASSWORD
+
+export GENESIS_PROJECT_DB_NAME="genesis-project-api"
+export GENESIS_PROJECT_DB_USER="genesis-project-api"
+export GENESIS_PROJECT_DB_PASS="insecuredevpassword"
+export GENESIS_PROJECT_DB_HOST="postgres"
+export GENESIS_PROJECT_DB_PORT=5432
+
+export FACEBOOK_CLIENT_ID=""
+export FACEBOOK_CLIENT_SECRET=""
+
+export GOOGLE_CLIENT_ID=""
+export GOOGLE_CLIENT_SECRET=""
+
+export AWS_ACCOUNT_ID=""
+export AWS_REGION=""
+export AWS_IDENTITY_POOL_ID=""
+export AWS_IAM_ROLE_ARN=""
+
+export AWS_GENESIS_USER_POOL_CLIENT_ID=""
+export AWS_GENESIS_USER_POOL_ID=""
+
+export TWILIO_AUTHTOKEN=81f7101c95080bb1967024459485a36d
+export TWILIO_ACCOUNTSID=AC323b263f042ea8b226d06948f44865bf
