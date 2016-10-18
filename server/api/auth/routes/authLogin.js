@@ -2,12 +2,14 @@
 
 import Joi from 'joi';
 import Boom from 'boom';
+import jwt from 'jsonwebtoken';
+import AppConfig from '../../../config';
 
 export default {
   method: 'POST',
-  path: '/auth',
+  path: '/sessions/login',
   config: {
-    tags: ['api', 'auth'],
+    tags: ['api', 'sessions'],
     description: 'Authenticate a user',
     notes: 'Takes a user and pass and returns a token for an authenticated user',
     auth: false,
@@ -27,15 +29,28 @@ export default {
       }
     },
     handler(request, reply) {
-      var db = request.server.plugins['hapi-mongodb'].db;
-      var ObjectID = request.server.plugins['hapi-mongodb'].ObjectID;
+      const db = request.server.plugins['hapi-mongodb'].db;
+      const ObjectID = request.server.plugins['hapi-mongodb'].ObjectID;
+      const { password } = request.server.plugins.common;
 
-      db.collection('users').findOne(request.payload, function(err, result) {
+
+      db.collection('users').findOne({userName: request.payload.username}, function(err, result) {
           if (err) return reply(Boom.internal('Internal MongoDB error', err));
           if(!result){
-            return reply(Boom.notFound('Not found'));
+            return reply(Boom.notFound());
           }
-          reply(result);
+
+          console.log(request.payload.password);
+          console.log(result.password);
+
+          if(password.comparePassword(request.payload.password, result.password)){
+            result.token = jwt.sign(result, AppConfig.get('/security/jwtSecret'), { expiresIn: 3600 });
+            return reply(result);
+          }
+          else{
+            return reply(Boom.unauthorized());
+          }
+
       });
 
     }

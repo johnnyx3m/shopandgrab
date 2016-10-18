@@ -1,21 +1,17 @@
 'use strict';
 
 export default (decoded, request, callback) => {
-  var User = request.models.User;
+  var db = request.server.plugins['hapi-mongodb'].db;
+  var ObjectID = request.server.plugins['hapi-mongodb'].ObjectID;
 
-  console.log('jwt')
 
-  if (decoded.id) {
-    User.findById(decoded.id)
-      .then((user) => {
-        if (user) {
-          return [true, user];
-        } else {
-          return [false];
-        }
-      })
-      .asCallback(callback, {spread: true});
-  } else {
-    return callback(null, false);
+  if(decoded._id){
+    db.collection('users').findOne({"_id": new ObjectID(decoded._id)},function(err,result){
+      //if(err) return reply(Boom.internal('Database error'))
+      console.log(result);
+      return callback(err,true, result);
+      //return [false];
+    })
   }
+  //return callback(null, false);
 }

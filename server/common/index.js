@@ -4,7 +4,7 @@ import convertValidationErrors from './lib/convertValidationErrors';
 import processOperationalErrors from './lib/processOperationalErrors';
 import consoleLogGeneralErrors from './lib/consoleLogGeneralErrors';
 import generateVerifyOTP from './lib/generateVerifyOTP';
-import metaList from './lib/metaList';
+import password from './lib/password';
 
 exports.register = (server, options, next) => {
 
@@ -14,7 +14,7 @@ exports.register = (server, options, next) => {
     convertValidationErrors,
     consoleLogGeneralErrors,
     generateVerifyOTP,
-    metaList,
+    password
   })
 
   next();
